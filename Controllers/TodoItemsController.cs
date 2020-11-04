@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Models;
 using System.Net.Http;
+using TodoApi.Integrations;
 
 namespace TodoApi.Controllers
 {
@@ -38,19 +39,10 @@ namespace TodoApi.Controllers
             return new Bar { foo = "bar" };
         }
 
-        public class IPAddress {
-            public string ip { get; set; }
-
-        }
-
         [HttpGet("baz")]
         public async Task<ActionResult<IPAddress>> GetBaz()
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://api.ipify.org");
-
-            HttpResponseMessage response = await client.GetAsync("?format=json");
-            return await response.Content.ReadAsAsync<IPAddress>();
+            return await IpifyClient.GetIPAddress();
         }
 
         // GET: api/TodoItems
