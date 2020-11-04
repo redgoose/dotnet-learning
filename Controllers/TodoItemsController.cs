@@ -38,14 +38,19 @@ namespace TodoApi.Controllers
             return new Bar { foo = "bar" };
         }
 
+        public class IPAddress {
+            public string ip { get; set; }
+
+        }
+
         [HttpGet("baz")]
-        public async Task<ActionResult<string>> GetBaz()
+        public async Task<ActionResult<IPAddress>> GetBaz()
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://concertsto.com/");
+            client.BaseAddress = new Uri("https://api.ipify.org");
 
-            HttpResponseMessage response = await client.GetAsync("/");
-            return await response.Content.ReadAsAsync<string>();
+            HttpResponseMessage response = await client.GetAsync("?format=json");
+            return await response.Content.ReadAsAsync<IPAddress>();
         }
 
         // GET: api/TodoItems
