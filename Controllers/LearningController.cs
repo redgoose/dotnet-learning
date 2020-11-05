@@ -15,14 +15,14 @@ namespace TodoApi.Controllers
         LearningService ls = new LearningService();
 
         [HttpGet("foo")]
-        public async Task<ActionResult<string>> GetFoo()
+        public string GetFoo()
         {
             return "foo";
         }
 
 
         [HttpGet("bar")]
-        public async Task<ActionResult<Bar>> GetBar()
+        public Bar GetBar()
         {
             return ls.GetBar();
         }
