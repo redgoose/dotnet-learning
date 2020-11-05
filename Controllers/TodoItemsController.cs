@@ -1,13 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Models;
-using System.Net.Http;
-using TodoApi.Integrations;
 
 namespace TodoApi.Controllers
 {
@@ -20,29 +16,6 @@ namespace TodoApi.Controllers
         public TodoItemsController(TodoContext context)
         {
             _context = context;
-        }
-
-        [HttpGet("foo")]
-        public async Task<ActionResult<string>> GetFoo()
-        {
-            return "foo";
-        }
-
-        public class Bar
-        {
-            public string foo { get; set; }
-        }
-
-        [HttpGet("bar")]
-        public async Task<ActionResult<Bar>> GetBar()
-        {
-            return new Bar { foo = "bar" };
-        }
-
-        [HttpGet("baz")]
-        public async Task<ActionResult<IPAddress>> GetBaz()
-        {
-            return await IpifyClient.GetIPAddress();
         }
 
         // GET: api/TodoItems
