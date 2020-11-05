@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Integrations;
+using TodoApi.Services;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,21 +11,20 @@ namespace TodoApi.Controllers
     [ApiController]
     public class LearningController : ControllerBase
     {
+
+        LearningService ls = new LearningService();
+
         [HttpGet("foo")]
         public async Task<ActionResult<string>> GetFoo()
         {
             return "foo";
         }
 
-        public class Bar
-        {
-            public string foo { get; set; }
-        }
 
         [HttpGet("bar")]
         public async Task<ActionResult<Bar>> GetBar()
         {
-            return new Bar { foo = "bar" };
+            return ls.GetBar();
         }
 
         [HttpGet("baz")]
