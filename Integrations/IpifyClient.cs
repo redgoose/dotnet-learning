@@ -17,9 +17,7 @@ namespace TodoApi.Integrations
 
         public static async Task<IPAddress> GetIPAddress()
         {
-            client.BaseAddress = new Uri("https://api.ipify.org");
-
-            HttpResponseMessage response = await client.GetAsync("?format=json");
+            HttpResponseMessage response = await client.GetAsync("https://api.ipify.org?format=json");
             return await response.Content.ReadAsAsync<IPAddress>();
         }
     }
