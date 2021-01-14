@@ -61,7 +61,7 @@ namespace Tests
             HttpClient _client = _server.CreateClient();
 
             _wireMockServer
-                //.Given(Request.Create().WithPath("https://api.ipify.org?format=json").UsingGet())
+                //.Given(Request.Create().WithUrl("https://api.ipify.org?format=json").UsingGet())
                 .Given(Request.Create().WithPath("?format=json").UsingGet())
                 .RespondWith(
                 Response.Create()
