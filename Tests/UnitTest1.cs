@@ -8,6 +8,7 @@ using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
 using WireMock.Server;
 using WireMock.Settings;
+using TodoApi.Integrations;
 
 namespace Tests
 {
@@ -77,6 +78,26 @@ namespace Tests
 
             // Assert
             Assert.AreEqual(@"{ ""ip"": ""0.0.0.0"" }", responseString);
+        }
+
+        [TestMethod]
+        public async Task TestAPIBaz2()
+        {
+            // Arrange
+            _wireMockServer
+                //.Given(Request.Create().WithUrl("https://api.ipify.org?format=json").UsingGet())
+                .Given(Request.Create().WithPath("?format=json").UsingGet())
+                .RespondWith(
+                Response.Create()
+                    .WithStatusCode(200)
+                    .WithBody(@"{ ""ip"": ""0.0.0.0"" }")
+                );
+
+            // Act
+            IPAddress ip = await IpifyClient.GetIPAddress();
+
+            // Assert
+            Assert.AreEqual("0.0.0.0", ip.ip);
         }
 
     }
