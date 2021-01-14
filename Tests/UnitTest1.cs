@@ -66,7 +66,7 @@ namespace Tests
                 .RespondWith(
                 Response.Create()
                     .WithStatusCode(200)
-                    .WithBody(@"{ ""msg"": ""Hello world!"" }")
+                    .WithBody(@"{ ""ip"": ""0.0.0.0"" }")
                 );
 
             // Act
@@ -76,7 +76,7 @@ namespace Tests
             var responseString = await response.Content.ReadAsStringAsync();
 
             // Assert
-            Assert.AreEqual(@"{ ""msg"": ""Hello world!"" }", responseString);
+            Assert.AreEqual(@"{ ""ip"": ""0.0.0.0"" }", responseString);
         }
 
     }
