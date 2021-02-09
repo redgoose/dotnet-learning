@@ -11,13 +11,19 @@ namespace TodoApi.Integrations
 
     }
 
-    public static class IpifyClient
+    public class IpifyClient
     {
-        static readonly HttpClient client = new HttpClient();
+        private readonly HttpClient client = new HttpClient();
+        private readonly string _baseUrl;
 
-        public static async Task<IPAddress> GetIPAddress()
+        public IpifyClient(string baseUrl)
         {
-            HttpResponseMessage response = await client.GetAsync("https://api.ipify.org?format=json");
+            _baseUrl = baseUrl;
+        }
+
+        public async Task<IPAddress> GetIPAddress()
+        {
+            HttpResponseMessage response = await client.GetAsync($"{_baseUrl}?format=json");
             return await response.Content.ReadAsAsync<IPAddress>();
         }
     }

@@ -59,11 +59,11 @@ namespace Tests
             // Arrange
             TestServer _server = new TestServer(new WebHostBuilder()
                 .UseStartup<Startup>());
-            HttpClient _client = _server.CreateClient();
+            // HttpClient _client = _server.CreateClient();
 
             _wireMockServer
                 //.Given(Request.Create().WithUrl("https://api.ipify.org?format=json").UsingGet())
-                .Given(Request.Create().WithPath("?format=json").UsingGet())
+                .Given(Request.Create().WithPath("/api/learning/baz").UsingGet())
                 .RespondWith(
                 Response.Create()
                     .WithStatusCode(200)
@@ -71,7 +71,8 @@ namespace Tests
                 );
 
             // Act
-            var response = await _client.GetAsync("/api/learning/baz");
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync($"{_wireMockServer.Urls[0]}/api/learning/baz");
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
@@ -86,15 +87,16 @@ namespace Tests
             // Arrange
             _wireMockServer
                 //.Given(Request.Create().WithUrl("https://api.ipify.org?format=json").UsingGet())
-                .Given(Request.Create().WithPath("?format=json").UsingGet())
+                .Given(Request.Create().WithParam("format", "json").UsingGet())
                 .RespondWith(
                 Response.Create()
                     .WithStatusCode(200)
+                    .WithHeader("content-type", "application/json")
                     .WithBody(@"{ ""ip"": ""0.0.0.0"" }")
                 );
 
             // Act
-            IPAddress ip = await IpifyClient.GetIPAddress();
+            IPAddress ip = await new IpifyClient(_wireMockServer.Urls[0]).GetIPAddress();
 
             // Assert
             Assert.AreEqual("0.0.0.0", ip.ip);
