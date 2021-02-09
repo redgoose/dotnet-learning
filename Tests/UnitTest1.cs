@@ -87,15 +87,16 @@ namespace Tests
             // Arrange
             _wireMockServer
                 //.Given(Request.Create().WithUrl("https://api.ipify.org?format=json").UsingGet())
-                .Given(Request.Create().WithPath("?format=json").UsingGet())
+                .Given(Request.Create().WithParam("format", "json").UsingGet())
                 .RespondWith(
                 Response.Create()
                     .WithStatusCode(200)
+                    .WithHeader("content-type", "application/json")
                     .WithBody(@"{ ""ip"": ""0.0.0.0"" }")
                 );
 
             // Act
-            IPAddress ip = await IpifyClient.GetIPAddress();
+            IPAddress ip = await new IpifyClient(_wireMockServer.Urls[0]).GetIPAddress();
 
             // Assert
             Assert.AreEqual("0.0.0.0", ip.ip);

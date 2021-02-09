@@ -30,7 +30,7 @@ namespace TodoApi.Controllers
         [HttpGet("baz")]
         public async Task<ActionResult<IPAddress>> GetBaz()
         {
-            return await IpifyClient.GetIPAddress();
+            return await new IpifyClient("https://api.ipify.org").GetIPAddress();
         }
 
     }
