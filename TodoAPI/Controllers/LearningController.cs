@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Integrations;
 using TodoApi.Services;
@@ -11,8 +12,11 @@ namespace TodoApi.Controllers
     [ApiController]
     public class LearningController : ControllerBase
     {
-
-        LearningService ls = new LearningService();
+        private readonly IHttpClientFactory _httpClientFactory;
+        public LearningController(IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
 
         [HttpGet("foo")]
         public string GetFoo()
@@ -24,13 +28,15 @@ namespace TodoApi.Controllers
         [HttpGet("bar")]
         public Bar GetBar()
         {
+            LearningService ls = new LearningService();
             return ls.GetBar();
         }
 
         [HttpGet("baz")]
         public async Task<ActionResult<IPAddress>> GetBaz()
         {
-            return await IpifyClient.GetIPAddress();
+            var ipifyClient = new IpifyClient(_httpClientFactory.CreateClient());
+            return await ipifyClient.GetIPAddress();
         }
 
     }

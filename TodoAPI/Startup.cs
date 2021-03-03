@@ -31,6 +31,8 @@ namespace TodoApi
                opt.UseInMemoryDatabase("TodoList"));
             services.AddControllers();
 
+            services.AddHttpClient();
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
         }
